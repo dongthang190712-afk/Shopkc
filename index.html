@@ -39,7 +39,7 @@
             text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
         }
         
-        /* Màn hình menu chính (2 nút lựa chọn) */
+        /* Màn hình menu chính */
         #home-menu {
             display: flex;
             flex-direction: column;
@@ -84,7 +84,6 @@
             color: #00e5ff;
         }
 
-        /* Các thành phần bên trong form */
         .sub-section {
             display: none;
         }
@@ -198,7 +197,7 @@
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
         }
 
-        /* Khung kết quả check độ nhạy & thanh toán */
+        /* Khung kết quả check độ nhạy */
         .result-box, .payment-info {
             display: none;
             margin-top: 25px;
@@ -226,6 +225,46 @@
         }
         .stat-item span { color: #94a3b8; }
         .stat-item strong { color: #00e5ff; }
+
+        /* Khung UID thiết kế giống 100% hình ảnh ảnh đính kèm */
+        .owner-uid-card {
+            margin-top: 15px;
+            background: #0b1329;
+            border: 1px solid #00e5ff;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .owner-uid-info {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .owner-uid-number {
+            color: #00e5ff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .owner-copy-btn {
+            background: #00e5ff;
+            color: #0b0f19;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            line-height: 1.2;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .owner-copy-btn:hover {
+            background: #38bdf8;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
 
         .qr-placeholder {
             width: 180px;
@@ -288,7 +327,16 @@
                 <input type="text" id="code" placeholder="Nhập mã code vào đây..." autocomplete="off">
             </div>
 
-            <button class="submit-btn" onclick="checkSensitivity()">TIẾN HÀNH CHECK</button>
+            <!-- Khung thông báo UID Chủ Phòng hiển thị mặc định theo ảnh -->
+            <div class="owner-uid-card">
+                <div class="owner-uid-info">
+                    UID Chủ Phòng (Z E U S) vô hồ sơ like<br>và lấy code:
+                    <div class="owner-uid-number" id="owner-uid">1755440836</div>
+                </div>
+                <button class="owner-copy-btn" onclick="copyText('owner-uid')">SAO<br>CHÉP</button>
+            </div>
+
+            <button class="submit-btn" onclick="checkSensitivity()" style="margin-top: 15px;">TIẾN HÀNH CHECK</button>
 
             <div class="result-box" id="result">
                 <h3>🎉 KẾT QUẢ ĐỘ NHẠY VIP 🎉</h3>
@@ -298,16 +346,6 @@
                 <div class="stat-item"><span>Ống ngắm 4x:</span> <strong id="r4">...</strong></div>
                 <div class="stat-item"><span>AWM Sniper:</span> <strong id="r5">...</strong></div>
                 <div class="stat-item"><span>Nhìn quanh (Free Look):</span> <strong id="r6">...</strong></div>
-                
-                <!-- Khung hiển thị UID Chủ Phòng và Nút Sao Chép -->
-                <div class="stat-item" style="margin-top: 15px; border-bottom: none; background: #131b2e; padding: 10px; border-radius: 8px;">
-                    <span>UID Chủ Phòng:</span>
-                    <div>
-                        <strong id="owner-uid" style="color: #22c55e;">1755440836</strong>
-                        <button class="copy-btn" onclick="copyText('owner-uid')">SAO CHÉP</button>
-                    </div>
-                </div>
-
                 <p style="text-align: center; margin-top: 12px; font-size: 12px; color: #00e5ff;">*Chỉ số nhân phẩm cực chuẩn xác! 😂</p>
             </div>
         </div>
@@ -375,7 +413,6 @@
     </div>
 
     <script>
-        // Điều hướng Menu
         function openSection(sectionId) {
             document.getElementById('home-menu').style.display = 'none';
             document.getElementById('sensitivity-section').style.display = 'none';
@@ -389,7 +426,6 @@
             document.getElementById('shop-section').style.display = 'none';
         }
 
-        // Logic Check Độ Nhạy
         function checkSensitivity() {
             let phone = document.getElementById('phone').value.trim();
             let code = document.getElementById('code').value.trim().toLowerCase();
@@ -412,7 +448,6 @@
             document.getElementById('result').style.display = 'block';
         }
 
-        // Logic Shop Nạp KC
         let chosenKc = "";
         let chosenPrice = "";
         let isVerified = false;
@@ -462,7 +497,6 @@
             document.getElementById('payment-box').style.display = 'block';
         }
 
-        // Hàm Sao Chép chung
         function copyText(id) {
             let text = document.getElementById(id).innerText;
             navigator.clipboard.writeText(text).then(() => {

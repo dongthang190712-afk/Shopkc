@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Nạp Kim Cương Free Fire - ZaloPay</title>
+    <title>Free Fire Portal - Check Độ Nhạy & Nạp KC</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +20,6 @@
             min-height: 100vh;
             padding: 25px 15px;
         }
-        /* Khung chứa tổng thể: To hơn, viền cong 20px */
         .container {
             background: #131b2e;
             border: 3px solid #00e5ff;
@@ -39,6 +38,56 @@
             letter-spacing: 1.5px;
             text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
         }
+        
+        /* Màn hình menu chính (2 nút lựa chọn) */
+        #home-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .menu-btn {
+            background: linear-gradient(45deg, #0284c7, #00e5ff);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            color: #0b0f19;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+            transition: 0.3s;
+            text-align: center;
+        }
+        .menu-btn:hover {
+            opacity: 0.95;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Nút quay lại menu */
+        .back-btn {
+            background: transparent;
+            border: 1px solid #94a3b8;
+            color: #94a3b8;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            border-color: #00e5ff;
+            color: #00e5ff;
+        }
+
+        /* Các thành phần bên trong form */
+        .sub-section {
+            display: none;
+        }
         .form-group {
             margin-bottom: 22px;
         }
@@ -53,7 +102,6 @@
             display: flex;
             gap: 10px;
         }
-        /* Ô nhập liệu: To hơn, viền cong 12px */
         input {
             width: 100%;
             padding: 14px 16px;
@@ -69,7 +117,6 @@
             box-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
             outline: none;
         }
-        /* Nút Xác Minh: Viền cong 12px */
         .verify-btn {
             background: #00e5ff;
             color: #0b0f19;
@@ -84,9 +131,7 @@
         }
         .verify-btn:hover {
             background: #38bdf8;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
         }
-        /* Khung thông báo xác minh: Viền cong 12px */
         .verify-status {
             display: none;
             margin-top: 10px;
@@ -99,7 +144,7 @@
             font-weight: bold;
         }
 
-        /* Bảng gói KC: Các ô to rõ, viền cong 15px */
+        /* Bảng gói KC */
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -133,7 +178,6 @@
             font-weight: 600;
         }
 
-        /* Nút Thanh Toán: To, viền cong 12px */
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -154,23 +198,34 @@
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.7);
         }
 
-        /* Khung thông tin ZaloPay: Viền cong 15px */
-        .payment-info {
+        /* Khung kết quả check độ nhạy & thanh toán */
+        .result-box, .payment-info {
             display: none;
             margin-top: 25px;
             background: #0b0f19;
             border: 2px solid #00e5ff;
             border-radius: 15px;
             padding: 20px;
-            text-align: center;
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
         }
-        .payment-title {
+        .result-box h3, .payment-title {
             color: #00e5ff;
             font-size: 16px;
+            text-align: center;
             font-weight: bold;
             margin-bottom: 12px;
         }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 6px;
+        }
+        .stat-item span { color: #94a3b8; }
+        .stat-item strong { color: #00e5ff; }
+
         .qr-placeholder {
             width: 180px;
             height: 180px;
@@ -189,10 +244,9 @@
             font-size: 14px;
             color: #94a3b8;
             margin-top: 8px;
+            text-align: center;
         }
-        .pay-detail strong {
-            color: #fff;
-        }
+        .pay-detail strong { color: #fff; }
         .copy-btn {
             background: #00e5ff;
             color: #0b0f19;
@@ -205,82 +259,149 @@
             margin-left: 8px;
             transition: 0.2s;
         }
-        .copy-btn:hover {
-            background: #38bdf8;
-        }
+        .copy-btn:hover { background: #38bdf8; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>💎 SHOP NẠP KC FREE FIRE 💎</h2>
+        <!-- MENU CHÍNH (HIỆN KHI VÀO WEB) -->
+        <div id="home-menu">
+            <h2>🔥 FREE FIRE PORTAL 🔥</h2>
+            <button class="menu-btn" onclick="openSection('sensitivity-section')">⚡ Check Độ Nhạy VIP</button>
+            <button class="menu-btn" onclick="openSection('shop-section')">💎 Shop Nạp Kim Cương</button>
+        </div>
 
-        <!-- Ô Nhập UID & Nút Xác Minh -->
-        <div class="form-group">
-            <label>Nhập UID Free Fire:</label>
-            <div class="input-group">
-                <input type="text" id="player-uid" placeholder="Nhập ID game của bạn..." autocomplete="off">
-                <button class="verify-btn" onclick="verifyID()">XÁC MINH</button>
+        <!-- MỤC 1: CHECK ĐỘ NHẠY -->
+        <div id="sensitivity-section" class="sub-section">
+            <button class="back-btn" onclick="goHome()">← Quay lại Menu</button>
+            <h2>⚡ CHECK ĐỘ NHẠY ⚡</h2>
+
+            <div class="form-group">
+                <label>Nhập dòng máy của bạn:</label>
+                <input type="text" id="phone" placeholder="Ví dụ: iPhone 13, Samsung..." autocomplete="off">
             </div>
-            <div class="verify-status" id="verify-box">
-                ✓ Đã xác minh tài khoản thành công!
+
+            <div class="form-group">
+                <label>Nhập mã code:</label>
+                <input type="text" id="code" placeholder="Nhập mã code vào đây..." autocomplete="off">
+            </div>
+
+            <button class="submit-btn" onclick="checkSensitivity()">TIẾN HÀNH CHECK</button>
+
+            <div class="result-box" id="result">
+                <h3>🎉 KẾT QUẢ ĐỘ NHẠY VIP 🎉</h3>
+                <div class="stat-item"><span>Nhìn xung quanh:</span> <strong id="r1">...</strong></div>
+                <div class="stat-item"><span>Red Dot Sight:</span> <strong id="r2">...</strong></div>
+                <div class="stat-item"><span>Ống ngắm 2x:</span> <strong id="r3">...</strong></div>
+                <div class="stat-item"><span>Ống ngắm 4x:</span> <strong id="r4">...</strong></div>
+                <div class="stat-item"><span>AWM Sniper:</span> <strong id="r5">...</strong></div>
+                <div class="stat-item"><span>Nhìn quanh (Free Look):</span> <strong id="r6">...</strong></div>
+                <p style="text-align: center; margin-top: 12px; font-size: 12px; color: #00e5ff;">*Chỉ số nhân phẩm cực chuẩn xác! 😂</p>
             </div>
         </div>
 
-        <!-- Bảng chọn gói KC theo đúng giá ZaloPay bạn yêu cầu -->
-        <div class="form-group">
-            <label>Chọn gói nạp ZaloPay:</label>
-            <div class="packages-grid">
-                <div class="pkg-card" onclick="selectPackage(this, '113 KC', '19.000 VNĐ')">
-                    <div class="pkg-kc">💎 113 KC</div>
-                    <div class="pkg-price">19.000 đ</div>
-                </div>
-                <div class="pkg-card" onclick="selectPackage(this, '283 KC', '48.000 VNĐ')">
-                    <div class="pkg-kc">💎 283 KC</div>
-                    <div class="pkg-price">48.000 đ</div>
-                </div>
-                <div class="pkg-card" onclick="selectPackage(this, '566 KC', '97.000 VNĐ')">
-                    <div class="pkg-kc">💎 566 KC</div>
-                    <div class="pkg-price">97.000 đ</div>
-                </div>
-                <div class="pkg-card" onclick="selectPackage(this, '1.132 KC', '192.000 VNĐ')">
-                    <div class="pkg-kc">💎 1.132 KC</div>
-                    <div class="pkg-price">192.000 đ</div>
-                </div>
-                <div class="pkg-card" onclick="selectPackage(this, 'Thẻ Tuần', '48.000 VNĐ')">
-                    <div class="pkg-kc">📜 Thẻ Tuần</div>
-                    <div class="pkg-price">48.000 đ</div>
-                </div>
-                <div class="pkg-card" onclick="selectPackage(this, 'Thẻ Tháng', '215.000 VNĐ')">
-                    <div class="pkg-kc">📜 Thẻ Tháng</div>
-                    <div class="pkg-price">215.000 đ</div>
-                </div>
-            </div>
-        </div>
+        <!-- MỤC 2: SHOP NẠP KIM CƯƠNG -->
+        <div id="shop-section" class="sub-section">
+            <button class="back-btn" onclick="goHome()">← Quay lại Menu</button>
+            <h2>💎 SHOP NẠP KC ZALOPAY 💎</h2>
 
-        <button class="submit-btn" onclick="showPayment()">THANH TOÁN QUA ZALOPAY</button>
-
-        <!-- Khung chuyển tiền ZaloPay -->
-        <div class="payment-info" id="payment-box">
-            <div class="payment-title">CỔNG THANH TOÁN ZALOPAY</div>
-            
-            <div class="qr-placeholder">
-                [MÃ QR ZALOPAY]
+            <div class="form-group">
+                <label>Nhập UID Free Fire:</label>
+                <div class="input-group">
+                    <input type="text" id="player-uid" placeholder="Nhập ID game..." autocomplete="off">
+                    <button class="verify-btn" onclick="verifyID()">XÁC MINH</button>
+                </div>
+                <div class="verify-status" id="verify-box">
+                    ✓ Đã xác minh thành công!
+                </div>
             </div>
 
-            <div class="pay-detail">Số điện thoại ZaloPay: <strong id="zalopay-num">090xxxxxxx</strong> 
-                <button class="copy-btn" onclick="copyText('zalopay-num')">SAO CHÉP</button>
+            <div class="form-group">
+                <label>Chọn gói nạp ZaloPay:</label>
+                <div class="packages-grid">
+                    <div class="pkg-card" onclick="selectPackage(this, '113 KC', '19.000 VNĐ')">
+                        <div class="pkg-kc">💎 113 KC</div>
+                        <div class="pkg-price">19.000 đ</div>
+                    </div>
+                    <div class="pkg-card" onclick="selectPackage(this, '283 KC', '48.000 VNĐ')">
+                        <div class="pkg-kc">💎 283 KC</div>
+                        <div class="pkg-price">48.000 đ</div>
+                    </div>
+                    <div class="pkg-card" onclick="selectPackage(this, '566 KC', '97.000 VNĐ')">
+                        <div class="pkg-kc">💎 566 KC</div>
+                        <div class="pkg-price">97.000 đ</div>
+                    </div>
+                    <div class="pkg-card" onclick="selectPackage(this, '1.132 KC', '192.000 VNĐ')">
+                        <div class="pkg-kc">💎 1.132 KC</div>
+                        <div class="pkg-price">192.000 đ</div>
+                    </div>
+                    <div class="pkg-card" onclick="selectPackage(this, 'Thẻ Tuần', '48.000 VNĐ')">
+                        <div class="pkg-kc">📜 Thẻ Tuần</div>
+                        <div class="pkg-price">48.000 đ</div>
+                    </div>
+                    <div class="pkg-card" onclick="selectPackage(this, 'Thẻ Tháng', '215.000 VNĐ')">
+                        <div class="pkg-kc">📜 Thẻ Tháng</div>
+                        <div class="pkg-price">215.000 đ</div>
+                    </div>
+                </div>
             </div>
-            <div class="pay-detail">Chủ tài khoản: <strong>ZALOPAY VIP</strong></div>
-            <div class="pay-detail" style="margin-top: 10px;">Gói chọn: <strong id="selected-pkg" style="color: #00e5ff;">Chưa chọn</strong></div>
-            <div class="pay-detail">Nội dung chuyển khoản: <strong id="pay-content" style="color: #22c55e;">-</strong> 
-                <button class="copy-btn" onclick="copyText('pay-content')">SAO CHÉP</button>
+
+            <button class="submit-btn" onclick="showPayment()">THANH TOÁN QUA ZALOPAY</button>
+
+            <div class="payment-info" id="payment-box">
+                <div class="payment-title">CỔNG THANH TOÁN ZALOPAY</div>
+                <div class="qr-placeholder">[MÃ QR ZALOPAY]</div>
+                <div class="pay-detail">SĐT ZaloPay: <strong id="zalopay-num">090xxxxxxx</strong> 
+                    <button class="copy-btn" onclick="copyText('zalopay-num')">SAO CHÉP</button>
+                </div>
+                <div class="pay-detail" style="margin-top: 8px;">Gói chọn: <strong id="selected-pkg" style="color: #00e5ff;">Chưa chọn</strong></div>
+                <div class="pay-detail">Nội dung CK: <strong id="pay-content" style="color: #22c55e;">-</strong> 
+                    <button class="copy-btn" onclick="copyText('pay-content')">SAO CHÉP</button>
+                </div>
             </div>
-            <p style="font-size: 12px; color: #94a3b8; margin-top: 12px;">*Kim Cương sẽ được tự động cộng vào nick sau 1 - 3 phút!</p>
         </div>
     </div>
 
     <script>
+        // Điều hướng giữa các mục
+        function openSection(sectionId) {
+            document.getElementById('home-menu').style.display = 'none';
+            document.getElementById('sensitivity-section').style.display = 'none';
+            document.getElementById('shop-section').style.display = 'none';
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function goHome() {
+            document.getElementById('home-menu').style.display = 'flex';
+            document.getElementById('sensitivity-section').style.display = 'none';
+            document.getElementById('shop-section').style.display = 'none';
+        }
+
+        // Logic Check Độ Nhạy
+        function checkSensitivity() {
+            let phone = document.getElementById('phone').value.trim();
+            let code = document.getElementById('code').value.trim().toLowerCase();
+
+            if(phone === "" || code === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+            if(code !== "like36") {
+                alert("Mã code không chính xác! Không thể lấy được độ nhạy đâu nhé!");
+                return;
+            }
+
+            document.getElementById('r1').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('r2').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('r3').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('r4').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('r5').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('r6').innerText = Math.floor(Math.random() * 150) + 50;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Logic Shop Nạp KC
         let chosenKc = "";
         let chosenPrice = "";
         let isVerified = false;
@@ -291,16 +412,15 @@
                 alert("Vui lòng nhập UID để xác minh!");
                 return;
             }
-
             let box = document.getElementById('verify-box');
             box.style.display = 'block';
-            box.innerText = "⏳ Đang kiểm tra UID trên hệ thống Garena...";
+            box.innerText = "⏳ Đang kiểm tra UID...";
             box.style.color = "#00e5ff";
             box.style.borderColor = "#00e5ff";
 
             setTimeout(() => {
                 isVerified = true;
-                box.innerText = "✓ Đã xác minh thành công UID: " + uid + " (Tài khoản hợp lệ)";
+                box.innerText = "✓ Đã xác minh thành công UID: " + uid;
                 box.style.color = "#22c55e";
                 box.style.borderColor = "#22c55e";
             }, 1000);
@@ -315,21 +435,17 @@
 
         function showPayment() {
             let uid = document.getElementById('player-uid').value.trim();
-
             if (uid === "") {
                 alert("Vui lòng nhập UID Free Fire!");
                 return;
             }
-
             if (!isVerified) {
                 verifyID();
             }
-
             if (chosenKc === "") {
                 alert("Vui lòng chọn 1 gói nạp!");
                 return;
             }
-
             document.getElementById('selected-pkg').innerText = chosenKc + " (" + chosenPrice + ")";
             document.getElementById('pay-content').innerText = "NAP " + uid;
             document.getElementById('payment-box').style.display = 'block';
@@ -342,6 +458,5 @@
             });
         }
     </script>
-
 </body>
 </html>

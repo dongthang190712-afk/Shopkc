@@ -218,6 +218,7 @@
         .stat-item {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
             font-size: 15px;
             border-bottom: 1px solid #1e293b;
@@ -265,7 +266,7 @@
 <body>
 
     <div class="container">
-        <!-- MENU CHÍNH (HIỆN KHI VÀO WEB) -->
+        <!-- MENU CHÍNH -->
         <div id="home-menu">
             <h2>🔥 FREE FIRE PORTAL 🔥</h2>
             <button class="menu-btn" onclick="openSection('sensitivity-section')">⚡ Check Độ Nhạy VIP</button>
@@ -297,6 +298,16 @@
                 <div class="stat-item"><span>Ống ngắm 4x:</span> <strong id="r4">...</strong></div>
                 <div class="stat-item"><span>AWM Sniper:</span> <strong id="r5">...</strong></div>
                 <div class="stat-item"><span>Nhìn quanh (Free Look):</span> <strong id="r6">...</strong></div>
+                
+                <!-- Khung hiển thị UID Chủ Phòng và Nút Sao Chép -->
+                <div class="stat-item" style="margin-top: 15px; border-bottom: none; background: #131b2e; padding: 10px; border-radius: 8px;">
+                    <span>UID Chủ Phòng:</span>
+                    <div>
+                        <strong id="owner-uid" style="color: #22c55e;">1755440836</strong>
+                        <button class="copy-btn" onclick="copyText('owner-uid')">SAO CHÉP</button>
+                    </div>
+                </div>
+
                 <p style="text-align: center; margin-top: 12px; font-size: 12px; color: #00e5ff;">*Chỉ số nhân phẩm cực chuẩn xác! 😂</p>
             </div>
         </div>
@@ -364,7 +375,7 @@
     </div>
 
     <script>
-        // Điều hướng giữa các mục
+        // Điều hướng Menu
         function openSection(sectionId) {
             document.getElementById('home-menu').style.display = 'none';
             document.getElementById('sensitivity-section').style.display = 'none';
@@ -451,6 +462,7 @@
             document.getElementById('payment-box').style.display = 'block';
         }
 
+        // Hàm Sao Chép chung
         function copyText(id) {
             let text = document.getElementById(id).innerText;
             navigator.clipboard.writeText(text).then(() => {

